@@ -13,6 +13,7 @@ runs:
   steps:
 
     - id: query-repo
+      shell: bash
       run: |
         curl --header "Authorization: Bearer ${{ github.token }}"  "https://api.github.com/repos/GoogleContainerTools/action-runner"
 
