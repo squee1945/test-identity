@@ -33,4 +33,5 @@ jobs:
         - id: id_token
           shell: bash
           run: |
-            curl --header "Authorization: Bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN?}" "${ACTIONS_ID_TOKEN_REQUEST_URL?}?audience=my-aud"
+            curl --header "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=my-aud" | jq '.["value"]' - | cut -d "." -f 2 | base64 --decode --ignore-garbage
+          continue-on-error: true
