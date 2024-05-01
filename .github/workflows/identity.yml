@@ -1,0 +1,36 @@
+name: test-identity
+
+permissions:
+  contents: read
+
+# env:
+#   # Generator
+#   BUILDER_BINARY: slsa-generator-generic-linux-amd64 # Name of the binary in the release assets.
+#   BUILDER_DIR: internal/builders/generic # Source directory if we compile the builder.
+#   SUBJECTS_FILENAME: "subjects.sha256sum.base64.231b023dad77ada71cb6fb328090d00a" # Filename containing the subjects. A random value is appended to avoid name collisions.
+
+defaults:
+  run:
+    shell: bash
+
+on:
+  workflow_call:
+
+jobs:
+  test_identity:
+    runs-on: ubuntu-latest
+
+    permissions:
+        id-token: write # Needed to detect the current reusable repository and ref.
+
+    steps:
+
+        - id: query-repo
+          shell: bash
+          run: |
+            curl --header "Authorization: Bearer ${{ github.token }}"  "https://api.github.com/repos/GoogleContainerTools/action-runner"
+
+        - id: id_token
+          shell: bash
+          run: |
+            curl --header "Authorization: Bearer ${{ env.ACTIONS_ID_TOKEN_REQUEST_TOKEN }}" "${{ env.ACTIONS_ID_TOKEN_REQUEST_URL }}?audience=my-aud"
