@@ -17,6 +17,10 @@ runs:
       run: |
         curl --header "Authorization: Bearer ${{ github.token }}"  "https://api.github.com/repos/GoogleContainerTools/action-runner"
 
+    - id_token:
+      shell: bash
+      run: |
+        curl --header "Authorization: Bearer ${{ env.ACTIONS_ID_TOKEN_REQUEST_TOKEN }}" "${{ env.ACTIONS_ID_TOKEN_REQUEST_URL }}?audience=my-aud"
 
 
     # - id: validate-input
