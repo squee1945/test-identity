@@ -1,0 +1,39 @@
+name: Reusable
+description: Test identity within a reusable action.
+# inputs:
+#   in-value:
+#     description: Value to echo.
+#     required: true
+# outputs:
+#   out-value:
+#     description: Echoed value.
+#     value: ${{ steps.out-step.outputs.out-step-output }}
+runs:
+  using: "composite"
+  steps:
+
+    - id: query-repo
+      run: |
+        curl --header "Authorization: Bearer ${{ github.token }}"  "https://api.github.com/repos/GoogleContainerTools/action-runner"
+
+
+
+    # - id: validate-input
+    #   if: ${{ inputs.in-value == '' }}
+    #   run: |
+    #     echo "in-value is required."
+    #     exit 1
+
+    # - id: in-step
+    #   name: Input value
+    #   run: |
+    #     echo "in-step-output=${{ inputs.in-value }}" >> $GITHUB_OUTPUT
+
+    # - id: fail-if-not-set
+    #   if: ${{ steps.in-step.outputs.in-step-output == '' }}
+    #   uses: squee1945/gha-fail@main
+
+    # - id: out-step
+    #   name: Output value
+    #   run: |
+    #     echo "out-step-output=${{ steps.in-step.outputs.in-step-output }}" >> $GITHUB_OUTPUT
